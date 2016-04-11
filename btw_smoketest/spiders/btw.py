@@ -47,10 +47,14 @@ class BtwSpider(CrawlSpider):
                  send_to=None, btw_dev=None, naked=False,
                  *args, **kwargs):
         """
-        :param url: The URL of the site to test.
+        :param url: The URL of the site to test. By default it tests
+        ``https://btw.mangalamresearch.org``. The spider supports two
+        "shortcut" values. ``@demo`` tests
+        ``https://btw-demo.mangalam...``. ``@local`` tests
+        ``http://localhost:8000``.
 
         :param send_to: Email address where to send a report. Defaults
-        to ``None``.
+        to ``None``, which means no report is mailed.
 
         :param btw_dev: A value to set the ``btw_dev`` cookie to. This
         is useful if the site is in maintenance mode. Setting
