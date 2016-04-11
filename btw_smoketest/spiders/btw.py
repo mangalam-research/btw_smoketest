@@ -44,9 +44,13 @@ class BtwSpider(CrawlSpider):
     name = "btw"
 
     def __init__(self, url="https://btw.mangalamresearch.org",
-                 btw_dev=None, naked=False, *args, **kwargs):
+                 send_to=None, btw_dev=None, naked=False,
+                 *args, **kwargs):
         """
         :param url: The URL of the site to test.
+
+        :param send_to: Email address where to send a report. Defaults
+        to ``None``.
 
         :param btw_dev: A value to set the ``btw_dev`` cookie to. This
         is useful if the site is in maintenance mode. Setting
@@ -65,6 +69,8 @@ class BtwSpider(CrawlSpider):
         if url[0] == "@":
             # Shortcut, resolve it to a real URL
             url = SHORTCUTS[url[1:]]
+
+        self.send_to = send_to
 
         parsed = urlparse(url)
         self.my_domain = parsed.hostname

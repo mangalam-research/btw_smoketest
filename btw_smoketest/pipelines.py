@@ -70,9 +70,10 @@ class JSONWriterPipeline(object):
                 with open(os.path.join(outdir, 'REPORT'), 'w') as f:
                     f.write(email_body)
 
-                sender = MailSender(mailfrom="btw@btw.mangalamresearch.org")
-                sender.send(["btw@btw.mangalamresearch.org"],
-                            "Smoketest failure", email_body)
+                send_to = spider.send_to
+                if send_to is not None:
+                    sender = MailSender(mailfrom="btw@btw.mangalamresearch.org")
+                    sender.send([send_to], "Smoketest failure", email_body)
             else:
                 with open(os.path.join(outdir, 'CLEAN'), 'w') as f:
                     f.write("yes\n")
