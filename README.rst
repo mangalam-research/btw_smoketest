@@ -24,8 +24,8 @@ subdirectory is created with the UTC date and time at the start of the
 crawl in ISO 8601 format. The results of the run are stored in the
 subdirectory:
 
-* If there are no errors, a file named ``CLEAN`` will be created and
-  will be empty.
+* If there are no errors, a file named ``CLEAN`` will be created with
+  the text "yes".
 
 * If there are errors, a file named ``ERRORS`` will contain the items
   that have errors, in JSON format. There will also be a file named
