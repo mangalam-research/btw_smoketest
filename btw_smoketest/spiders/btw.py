@@ -142,7 +142,7 @@ class BtwSpider(CrawlSpider):
                                    'X-XSS-Protection', '1; mode=block')
 
                 def sts_check(value):
-                    return value is not None and value.starts_with("max-age=")
+                    return value is not None and value.startswith("max-age=")
 
                 check_header_value(header_errors, headers,
                                    'Strict-Transport-Security', sts_check)
