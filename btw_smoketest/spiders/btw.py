@@ -5,8 +5,8 @@ import subprocess
 from urlparse import urlparse
 
 from scrapy import Request
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.contrib.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from scrapy.item import Item, Field
 from slugify import slugify
 
