@@ -103,15 +103,19 @@ class BtwSpider(CrawlSpider):
         self.outdir = os.path.join("out", now.isoformat())
         os.makedirs(self.outdir)
 
-    def make_requests_from_url(self, url):
-        request = super(BtwSpider, self).make_requests_from_url(url)
+    def start_requests(self):
+        requests = super(BtwSpider, self).start_requests()
+        if not self.btw_dev:
+            return requests
+
         # We add the cookie to the request. The default middleware
         # that ships with scrapy will act like a browser. Since the
         # cookie is set now and is not removed by the site, all
         # subsequent requests will use the cookie too.
-        if self.btw_dev:
+        for request in requests:
             request.cookies['btw_dev'] = self.btw_dev
-        return request
+
+        return requests
 
     def parse_start_url(self, response):
         return self.handle_response(response)
