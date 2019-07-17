@@ -34,8 +34,8 @@ def check_header_value(header_errors, headers, key, expected_value):
 
     # If expected_value is a callable, we call it to test the value,
     # otherwise we just compare.
-    if not (expected_value(value) if callable(expected_value) else \
-       value == expected_value):
+    if not (expected_value(value) if callable(expected_value) else
+            value == expected_value):
         header_errors.append(
             format_header_error(key, value))
 
@@ -150,7 +150,6 @@ class BtwSpider(CrawlSpider):
 
                 check_header_value(header_errors, headers,
                                    'Strict-Transport-Security', sts_check)
-
 
             html_path = os.path.join(self.outdir, slugify(url))
             validation_report_path = html_path + ".report"
