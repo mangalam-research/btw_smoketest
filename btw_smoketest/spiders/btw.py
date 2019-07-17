@@ -2,7 +2,7 @@
 import os
 import datetime
 import subprocess
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 from scrapy import Request
 from scrapy.spiders import CrawlSpider, Rule
@@ -126,9 +126,10 @@ class BtwSpider(CrawlSpider):
     def handle_response(self, response):
         headers = response.headers
         item = LinkItem()
-        url = response.url.decode("utf-8")
+        url = response.url
         item['url'] = url
-        item['referer'] = response.request.headers.get('Referer')
+        referer = response.request.headers.get('Referer')
+        item['referer'] = None if referer is None else referer.decode("utf8")
         item['status'] = response.status
 
         parsed = urlparse(url)
@@ -139,14 +140,14 @@ class BtwSpider(CrawlSpider):
             # We perform header checks only on non-naked sites.
             if not self.naked:
                 check_header_value(header_errors, headers,
-                                   'X-Frame-Options', 'SAMEORIGIN')
+                                   b'X-Frame-Options', b'SAMEORIGIN')
                 check_header_value(header_errors, headers,
-                                   'X-Content-Type-Options', 'nosniff')
+                                   b'X-Content-Type-Options', b'nosniff')
                 check_header_value(header_errors, headers,
-                                   'X-XSS-Protection', '1; mode=block')
+                                   b'X-XSS-Protection', b'1; mode=block')
 
                 def sts_check(value):
-                    return value is not None and value.startswith("max-age=")
+                    return value is not None and value.startswith(b"max-age=")
 
                 check_header_value(header_errors, headers,
                                    'Strict-Transport-Security', sts_check)
@@ -155,7 +156,7 @@ class BtwSpider(CrawlSpider):
             validation_report_path = html_path + ".report"
             item['html_path'] = html_path
             item['validation_report_path'] = validation_report_path
-            with open(html_path, 'w') as f:
+            with open(html_path, 'wb') as f:
                 f.write(response.body)
 
             try:
