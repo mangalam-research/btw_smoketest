@@ -1,2 +1,2 @@
-scrapy>=1.0.5,<1.1
-slugify>=0.0.1,<1
+scrapy>=1.6,<1.7
+python-slugify>=3,<4
