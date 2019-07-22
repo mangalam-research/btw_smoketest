@@ -165,10 +165,8 @@ class BtwSpider(CrawlSpider):
                                        html_path],
                                       stderr=open(validation_report_path, 'w'))
             except subprocess.CalledProcessError:
-                pass
-
-            item['validation_error'] = \
-                not os.path.exists(validation_report_path) or \
-                os.stat(validation_report_path).st_size != 0
+                item['validation_error'] = True
+            else:
+                item['validation_error'] = False
 
         return item

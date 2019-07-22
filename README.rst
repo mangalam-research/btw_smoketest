@@ -54,10 +54,13 @@ INSTALLATION
 
 This spider requires that the settings for Scrapy contain a
 ``VNU_JAR_PATH`` setting which should be set to the location of the
-VNU jar on your system. (Get it from here:
-https://github.com/validator/validator/releases/tag/16.3.3) The VNU
+VNU jar on your system. (https://github.com/validator/validator/) The VNU
 jar is used to validate the HTML of the pages. This is the only
-setting you should be messing with.
+setting you could be messing with.
+
+Running ``npm install`` as suggested below will install the VNU jar in a default
+location that will be found with the stock ``settings.py``. So normally you
+don't need to worry about installing it.
 
 We recommend you set a virtualenv for this spider. For instance,
 assuming you start in the top directory of ``btw_smoketest``::
@@ -67,3 +70,4 @@ assuming you start in the top directory of ``btw_smoketest``::
     $ cd btw_smoketest
     $ . ../btw_smoketest_env/bin/activate
     $ pip install -r requirements.txt
+    $ npm install
