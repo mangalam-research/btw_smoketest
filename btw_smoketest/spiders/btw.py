@@ -100,8 +100,18 @@ class BtwSpider(CrawlSpider):
 
         super(BtwSpider, self).__init__(*args, **kwargs)
         now = datetime.datetime.utcnow().replace(microsecond=0)
-        self.outdir = os.path.join("out", now.isoformat())
-        os.makedirs(self.outdir)
+
+        outdir = "out"
+        self.spider_outdir = os.path.join(outdir, now.isoformat())
+        os.makedirs(self.spider_outdir)
+        latest = os.path.join(outdir, "LATEST")
+        try:
+            os.unlink(latest)
+        except OSError as ex:
+            if ex.errno != 2:
+                raise
+
+        os.symlink(os.path.basename(self.spider_outdir), latest)
 
     def start_requests(self):
         requests = super(BtwSpider, self).start_requests()
@@ -152,7 +162,7 @@ class BtwSpider(CrawlSpider):
                 check_header_value(header_errors, headers,
                                    'Strict-Transport-Security', sts_check)
 
-            html_path = os.path.join(self.outdir, slugify(url))
+            html_path = os.path.join(self.spider_outdir, slugify(url))
             validation_report_path = html_path + ".report"
             item['html_path'] = html_path
             item['validation_report_path'] = validation_report_path
